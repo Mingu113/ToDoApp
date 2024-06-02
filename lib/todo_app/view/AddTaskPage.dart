@@ -1,10 +1,10 @@
 
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:project_final/todo_app/model/task_model.dart';
+import 'package:project_final/todo_app/notification_services.dart';
 
 class AddTask extends StatefulWidget {
   final String? docId;
@@ -23,17 +23,17 @@ class _AddTaskState extends State<AddTask> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Thêm nhiệm vụ"),
+        title: const Text("Thêm nhiệm vụ"),
       ),
       body: Column(
         children: [
           Container(
-            padding: EdgeInsets.only(left: 10,right: 10),
+            padding: const EdgeInsets.only(left: 10,right: 10),
             width: MediaQuery.of(context).size.width,
             height:100,
             child: TextFormField(
               controller: txtTaskName,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: "Nhập công việc cần làm",
                 labelStyle: TextStyle(
                   fontSize: 20,
@@ -44,19 +44,19 @@ class _AddTaskState extends State<AddTask> {
               ),
               validator: (value){
                 if (value == null || value.isEmpty) {
-                  return 'Vui long nhap nhiem vu';
+                  return 'Vui lòng nhập nhiệm vụ';
                 }
                 return null;
               },
             ),
           ),
           Container(
-            padding: EdgeInsets.only(left: 10, right: 10),
+            padding: const EdgeInsets.only(left: 10, right: 10),
             width: MediaQuery.of(context).size.width,
             height: 100,
             child: TextFormField(
               controller: txtDateTimeController,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: "Thời gian đáo hạn",
                 labelStyle: TextStyle(
                   fontSize: 20,
@@ -80,10 +80,10 @@ class _AddTaskState extends State<AddTask> {
                 stream: TaskSnapShot.getAll(widget.docId!),
                 builder: (context, snapshot) {
                   if (snapshot.hasError) {
-                    return Center(child: Text("Error Data"),);
+                    return const Center(child: Text("Error Data"),);
                   }
                   if (!snapshot.hasData || snapshot.data == null || snapshot.data!.isEmpty) {
-                    return Align(alignment: Alignment.center,child: Text("Bạn chưa tạo công việc!"));
+                    return const Align(alignment: Alignment.center,child: Text("Bạn chưa tạo công việc!"));
                   }
                   List<TaskSnapShot> list = snapshot.data!;
 
@@ -148,9 +148,12 @@ class _AddTaskState extends State<AddTask> {
                       'isCompleted': false,
                       'dueTime': Timestamp.fromDate(selectedDateTime!),
                     });
+                    // NotificationServices().showNotification(title: "Đã thêm nhiệm vụ", body: txtTaskName.text, datetime: selectedDateTime!, payload: txtTaskName.text);
                     txtTaskName.clear();
                     txtDateTimeController.clear();
+                    print(selectedDateTime);
                   }
+                  NotificationServices.showNotification(title: 'Test', body: "Body", id: 1);
                 },
                 child: const Icon(Icons.add),
               ),

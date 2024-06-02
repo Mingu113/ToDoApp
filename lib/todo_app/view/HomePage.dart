@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:project_final/Firebase/firebase_auth.dart';
 import 'package:project_final/todo_app/model/topic_model.dart';
+import 'package:project_final/todo_app/notification_services.dart';
 import 'package:project_final/todo_app/view/AddTaskPage.dart';
 import 'package:project_final/todo_app/view/LoginPage.dart';
 
@@ -46,7 +47,10 @@ class _HomePageState extends State<HomePage> {
               onPressed: () {
                 _showAddTopicDialog(context);
               },
-              icon: const Icon(Icons.add))
+              icon: const Icon(Icons.add)),
+          IconButton(onPressed: () {
+            NotificationServices.showNotification(title: "Test", body: "Body");
+          }, icon: Icon(Icons.notification_important)),
         ],
       ),
       body: Column(

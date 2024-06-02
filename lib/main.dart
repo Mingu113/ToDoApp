@@ -7,6 +7,8 @@ import 'package:project_final/todo_app/view/LoginPage.dart';
 import 'package:provider/provider.dart';
 
 void main() {
+  // WidgetsFlutterBinding.ensureInitialized();
+  // NotificationServices().initNotification();
   runApp(const MyApp());
 }
 
